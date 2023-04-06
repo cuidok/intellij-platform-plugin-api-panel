@@ -1,9 +1,9 @@
-package com.github.cuidok.intellijplatformpluginapipanel.services
+package com.github.cuidok.intellij.platform.plugin.apipanel.services
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.github.cuidok.intellijplatformpluginapipanel.MyBundle
+import com.github.cuidok.intellij.platform.plugin.apipanel.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {

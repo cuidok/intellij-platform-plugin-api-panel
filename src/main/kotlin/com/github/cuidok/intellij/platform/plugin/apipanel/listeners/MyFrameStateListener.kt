@@ -1,4 +1,4 @@
-package com.github.cuidok.intellijplatformpluginapipanel.listeners
+package com.github.cuidok.intellij.platform.plugin.apipanel.listeners
 
 import com.intellij.ide.FrameStateListener
 import com.intellij.openapi.diagnostic.thisLogger

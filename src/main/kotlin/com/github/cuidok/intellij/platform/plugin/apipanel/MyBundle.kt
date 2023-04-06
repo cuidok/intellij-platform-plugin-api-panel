@@ -1,4 +1,4 @@
-package com.github.cuidok.intellijplatformpluginapipanel
+package com.github.cuidok.intellij.platform.plugin.apipanel
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

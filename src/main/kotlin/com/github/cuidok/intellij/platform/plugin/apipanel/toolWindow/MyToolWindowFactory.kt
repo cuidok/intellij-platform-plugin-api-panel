@@ -1,4 +1,4 @@
-package com.github.cuidok.intellijplatformpluginapipanel.toolWindow
+package com.github.cuidok.intellij.platform.plugin.apipanel.toolWindow
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -8,8 +8,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.content.ContentFactory
-import com.github.cuidok.intellijplatformpluginapipanel.MyBundle
-import com.github.cuidok.intellijplatformpluginapipanel.services.MyProjectService
+import com.github.cuidok.intellij.platform.plugin.apipanel.MyBundle
+import com.github.cuidok.intellij.platform.plugin.apipanel.services.MyProjectService
 import javax.swing.JButton
 
 
