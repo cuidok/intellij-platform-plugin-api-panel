@@ -6,13 +6,13 @@
 
     <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <resource-bundle>messages.MainBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.cuidok.intellij.platform.plugin.apipanel.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <toolWindow factoryClass="com.github.cuidok.intellij.platform.plugin.apipanel.toolWindow.MainWindowFactory" id="MainToolWindow"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.cuidok.intellij.platform.plugin.apipanel.listeners.MyFrameStateListener" topic="com.intellij.ide.FrameStateListener"/>
+        <listener class="com.github.cuidok.intellij.platform.plugin.apipanel.listeners.CustomFrameStateListener" topic="com.intellij.ide.FrameStateListener"/>
     </applicationListeners>
 </idea-plugin>
