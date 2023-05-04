@@ -1,5 +1,6 @@
 package com.github.cuidok.intellij.platform.plugin.apipanel.services;
 
+import com.github.cuidok.intellij.platform.plugin.apipanel.model.SpringBootControllerClass;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
@@ -14,7 +15,7 @@ public class AnnotationSearcher {
 
     private final Project project;
 
-    private final List<PsiFile> controllerClass;
+    private final List<SpringBootControllerClass> controllerClass;
 
     public AnnotationSearcher(Project project) {
         this.logger = Logger.getInstance(AnnotationSearcher.class);
@@ -60,7 +61,7 @@ public class AnnotationSearcher {
                     for (PsiAnnotation annotation : psiClass.getAnnotations()) {
                         String qualifiedName = annotation.getQualifiedName();
                         if ("org.springframework.web.bind.annotation.RestController".equals(qualifiedName)) {
-                            controllerClass.add(psiFile);
+                            controllerClass.add(new SpringBootControllerClass(psiFile, annotation));
                         }
                     }
                 }
@@ -79,9 +80,9 @@ public class AnnotationSearcher {
      * identify all @DeleteMapping annotations in @RestController
      * identify all @PatchMapping annotations in @RestController
      *
-     * @param psiJavaFile item of controllerClass
+     * @param controllerClass item of controllerClass
      */
-    private void parseApiInterface(PsiJavaFile psiJavaFile) {
+    private void parseApiInterface(SpringBootControllerClass controllerClass) {
 
     }
 
