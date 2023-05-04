@@ -40,6 +40,10 @@ public class AnnotationSearcher {
                 parseControllerClass(psiDir);
             }
         }
+
+        for (SpringBootControllerClass controllerClass : controllerClass) {
+            parseApiInterface(controllerClass);
+        }
     }
 
     /**
@@ -79,7 +83,32 @@ public class AnnotationSearcher {
      * @param controllerClass item of controllerClass
      */
     private void parseApiInterface(SpringBootControllerClass controllerClass) {
-
+        String url_root = controllerClass.getRestControllerValue();
+        PsiFile psiFile = controllerClass.getControllerClass();
+        PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
+        for (PsiClass psiClass : psiJavaFile.getClasses()) {
+            for (PsiMethod psiMethod : psiClass.getMethods()) {
+                for (PsiAnnotation annotation : psiMethod.getAnnotations()) {
+                    String qualifiedName = annotation.getQualifiedName();
+                    if (qualifiedName != null) {
+                        switch (qualifiedName) {
+                            case "org.springframework.web.bind.annotation.RequestMapping":
+                            case "org.springframework.web.bind.annotation.GetMapping":
+                            case "org.springframework.web.bind.annotation.PostMapping":
+                            case "org.springframework.web.bind.annotation.PutMapping":
+                            case "org.springframework.web.bind.annotation.DeleteMapping":
+                            case "org.springframework.web.bind.annotation.PatchMapping":
+                                String url = annotation.findAttributeValue("value").getText();
+                                url = url.substring(1, url.length() - 1);
+                                System.out.println(url_root + url);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

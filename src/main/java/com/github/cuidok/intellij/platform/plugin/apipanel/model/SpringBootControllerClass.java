@@ -5,28 +5,38 @@ import com.intellij.psi.PsiFile;
 
 public class SpringBootControllerClass {
 
-    private PsiFile controllerClass;
+    private PsiFile controller_class;
 
-    private PsiAnnotation restControllerAnnotation;
+    private PsiAnnotation rest_controller_annotation;
 
-    public SpringBootControllerClass(PsiFile controllerClass, PsiAnnotation restControllerAnnotation) {
-        this.controllerClass = controllerClass;
-        this.restControllerAnnotation = restControllerAnnotation;
+    public SpringBootControllerClass(PsiFile controller_class, PsiAnnotation rest_controller_annotation) {
+        this.controller_class = controller_class;
+        this.rest_controller_annotation = rest_controller_annotation;
+    }
+
+    public String getRestControllerValue() {
+        // if controller class or rest controller annotation is null return empty string
+        if (controller_class == null || rest_controller_annotation == null) {
+            return "";
+        }
+        // get value of @RestController annotation, but need to remove ""
+        String value = rest_controller_annotation.findAttributeValue("value").getText();
+        return value.substring(1, value.length() - 1);
     }
 
     public PsiFile getControllerClass() {
-        return controllerClass;
+        return controller_class;
     }
 
-    public void setControllerClass(PsiFile controllerClass) {
-        this.controllerClass = controllerClass;
+    public void setControllerClass(PsiFile controller_class) {
+        this.controller_class = controller_class;
     }
 
     public PsiAnnotation getRestControllerAnnotation() {
-        return restControllerAnnotation;
+        return rest_controller_annotation;
     }
 
-    public void setRestControllerAnnotation(PsiAnnotation restControllerAnnotation) {
-        this.restControllerAnnotation = restControllerAnnotation;
+    public void setRestControllerAnnotation(PsiAnnotation rest_controller_annotation) {
+        this.rest_controller_annotation = rest_controller_annotation;
     }
 }
