@@ -4,9 +4,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
+import com.intellij.psi.*;
 
 import java.util.List;
 
@@ -16,9 +14,12 @@ public class AnnotationSearcher {
 
     private final Project project;
 
+    private final List<PsiFile> controllerClass;
+
     public AnnotationSearcher(Project project) {
         this.logger = Logger.getInstance(AnnotationSearcher.class);
         this.project = project;
+        this.controllerClass = new java.util.ArrayList<>(10);
     }
 
     /**
@@ -35,43 +36,53 @@ public class AnnotationSearcher {
     public void search() {
         PsiManager psiManager = PsiManager.getInstance(project);
         VirtualFile[] sourceRoots = ProjectRootManager.getInstance(project).getContentRoots();
-        List<PsiFile> psiFiles = new java.util.ArrayList<>();
 
         for (VirtualFile virtualFile : sourceRoots) {
             PsiDirectory psiDir = psiManager.findDirectory(virtualFile);
             if (psiDir != null) {
-                addPsiFiles(psiDir, psiFiles);
+                parseControllerClass(psiDir);
             }
-        }
-
-        for (PsiFile psiFile : psiFiles) {
-            logger.debug("psiFile: " + psiFile.getName());
         }
     }
 
     /**
-     * Scan all Java files in the project
+     * Scan all controller Java files in the project
      * <p>
      * Add @RestController annotation to the List
-     * Add @RequestMapping annotation to the List
-     * Add @GetMapping annotation to the List
-     * Add @PostMapping annotation to the List
-     * Add @PutMapping annotation to the List
-     * Add @DeleteMapping annotation to the List
-     * Add @PatchMapping annotation to the List
      *
      * @param psiDir project directory
-     * @param psiFiles list of Java files
      */
-    private void addPsiFiles(PsiDirectory psiDir, List<PsiFile> psiFiles) {
+    private void parseControllerClass(PsiDirectory psiDir) {
         for (PsiFile psiFile : psiDir.getFiles()) {
             if (psiFile.getName().endsWith(".java")) {
-                psiFiles.add(psiFile);
+                PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
+                for (PsiClass psiClass : psiJavaFile.getClasses()) {
+                    for (PsiAnnotation annotation : psiClass.getAnnotations()) {
+                        String qualifiedName = annotation.getQualifiedName();
+                        if ("org.springframework.web.bind.annotation.RestController".equals(qualifiedName)) {
+                            controllerClass.add(psiFile);
+                        }
+                    }
+                }
             }
         }
         for (PsiDirectory subDir : psiDir.getSubdirectories()) {
-            addPsiFiles(subDir, psiFiles);
+            parseControllerClass(subDir);
         }
+    }
+
+    /**
+     * identify all @RequestMapping annotations in @RestController
+     * identify all @GetMapping annotations in @RestController
+     * identify all @PostMapping annotations in @RestController
+     * identify all @PutMapping annotations in @RestController
+     * identify all @DeleteMapping annotations in @RestController
+     * identify all @PatchMapping annotations in @RestController
+     *
+     * @param psiJavaFile item of controllerClass
+     */
+    private void parseApiInterface(PsiJavaFile psiJavaFile) {
+
     }
 
 }
