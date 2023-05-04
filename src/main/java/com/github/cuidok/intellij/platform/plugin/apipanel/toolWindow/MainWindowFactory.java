@@ -18,7 +18,8 @@ import javax.swing.JComponent;
 
 
 public class MainWindowFactory implements ToolWindowFactory {
-    private final ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
+
+   private final ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
 
     @Override
     public void createToolWindowContent(Project project, ToolWindow toolWindow) {
@@ -34,17 +35,25 @@ public class MainWindowFactory implements ToolWindowFactory {
 
     static class MyToolWindow {
 
+        private final Logger logger;
+
+        private final Project project;
+
         private final RandomNumberService service;
+
         private final JButton shuffleButton;
+
         private final JBLabel label;
 
-        private Project project;
+
 
         public MyToolWindow(final ToolWindow toolWindow, Project project) {
+            this.logger = Logger.getInstance(this.getClass());
             this.project = project;
+
             service = ServiceManager.getService(toolWindow.getProject(), RandomNumberService.class);
 
-            Logger.getInstance(this.getClass()).warn("Java API Panel: MyToolWindow");
+            logger.info("Java API Panel: MyToolWindow");
 
             label = new JBLabel(MyBundle.message("randomLabel", "?"));
             shuffleButton = new JButton(MyBundle.message("shuffle"));
