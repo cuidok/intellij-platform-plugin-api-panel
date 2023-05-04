@@ -1,7 +1,6 @@
 package com.github.cuidok.intellij.platform.plugin.apipanel.services;
 
 import com.github.cuidok.intellij.platform.plugin.apipanel.model.SpringBootControllerClass;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -11,14 +10,11 @@ import java.util.List;
 
 public class AnnotationSearcher {
 
-    private final Logger logger;
-
     private final Project project;
 
     private final List<SpringBootControllerClass> controllerClass;
 
     public AnnotationSearcher(Project project) {
-        this.logger = Logger.getInstance(AnnotationSearcher.class);
         this.project = project;
         this.controllerClass = new java.util.ArrayList<>(10);
     }
